@@ -1,0 +1,116 @@
+body {
+  background-color: #F8F8F8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 0;
+  padding: 0;
+}
+
+.treeview-scroller {
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.treeview-container {
+  padding: 4px 0;
+  -webkit-user-select: none;
+  overflow: visible;
+  position: absolute;
+  display: block;
+  min-width: 100%;
+}
+
+.treeview-node {
+  min-width: 100%;
+}
+
+.treeview-line {
+  white-space: nowrap;
+  left: 0;
+  right: 0;
+  padding-left: 4px;
+  min-width: 10px;
+  overflow: visible;
+  position: relative;
+}
+
+.treeview-line:focus {
+  outline: none;
+}
+
+.treeview-highlight {
+  position: absolute;
+  left: -2px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -100;
+  display: inline-block;
+}
+
+.treeview-grip {
+  display: inline-block;
+  vertical-align: middle;
+  width: 12px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor: pointer;
+}
+
+.treeview-line:focus > .treeview-highlight{
+  outline: 1px dotted gray;
+}
+
+.treeview-line:hover > .treeview-highlight {
+  background: #EEE;
+}
+
+.treeview-line.selected > .treeview-highlight {
+  background: #CCF;
+}
+
+.treeview-line.selected:hover > .treeview-highlight {
+  background: #DDF;
+}
+
+.treeview-node > .treeview-line > .treeview-grip {
+  /** Plus sign. **/
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAQUlEQVQYV2MUERE59+bNG0MGHAAof54RKPcfCHCpYWBkZGTAUAQSRNZEuiKQDnQAMpF0k2CmEOUmdCvB1hERThcA7LU1GEciQNAAAAAASUVORK5CYII=');
+}
+
+.treeview-node.expanded > .treeview-line > .treeview-grip {
+  /** Minus sign. **/
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAN0lEQVQYV2MUERE59+bNG0MGHAAof54RKPcfCHCpYWBkZGSggSKQsegA5AwaWYfLe2DriAinCwBIHCkYBIrK3gAAAABJRU5ErkJggg==');
+}
+
+.treeview-icon {
+  display: inline-block;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.treeview-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 1px;
+  padding: 2px;
+  cursor: default;
+  -webkit-user-select: none;
+}
+
+.treeview-children {
+  transition-delay: 0, 0.3s;
+  display: none;
+}
+
+.treeview-node.expanded > .treeview-children {
+  display: block;
+}

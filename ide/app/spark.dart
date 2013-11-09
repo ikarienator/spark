@@ -15,9 +15,9 @@ import 'lib/ace.dart';
 import 'lib/app.dart';
 import 'lib/utils.dart';
 import 'lib/preferences.dart';
-import 'lib/ui/files_controller.dart';
-import 'lib/ui/files_controller_delegate.dart';
 import 'lib/ui/widgets/splitview.dart';
+import 'lib/ui/widgets/fileview.dart';
+import 'lib/ui/widgets/treeview.dart';
 import 'lib/workspace.dart';
 import 'spark_test.dart';
 
@@ -62,7 +62,7 @@ void main() {
   });
 }
 
-class Spark extends Application implements FilesControllerDelegate {
+class Spark extends Application {
   AceEditor editor;
   Workspace workspace;
 
@@ -70,7 +70,7 @@ class Spark extends Application implements FilesControllerDelegate {
   PreferenceStore syncPrefs;
 
   SplitView _splitView;
-  FilesController _filesController;
+  FileView _filesController;
 
   PlatformInfo _platformInfo;
 
@@ -91,11 +91,16 @@ class Spark extends Application implements FilesControllerDelegate {
 
     editor = new AceEditor();
 
-    _splitView = new SplitView(querySelector('#splitview'));
+    Element splitViewElement = querySelector('#splitview');
+    _splitView = new SplitView(splitViewElement);
     _splitView.onResized.listen((_) {
       editor.resize();
     });
-    _filesController = new FilesController(workspace, this);
+    _filesController = new FileView(splitViewElement.children[0], workspace);
+    _filesController.onSelectionChanged.listen((TreeNodeEvent<bool> event) {
+      if (event.data)
+        openInEditor((event.node as FileNode).resource);
+    });
 
     setupFileActions();
     setupEditorThemes();

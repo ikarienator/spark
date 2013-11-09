@@ -6,7 +6,6 @@ library spark.ui.widgets.splitview;
 
 import 'dart:html';
 import 'dart:async';
-import '../utils/html_utils.dart';
 
 /**
  * This class encapsulates a splitview. It's a view with two panels and a
