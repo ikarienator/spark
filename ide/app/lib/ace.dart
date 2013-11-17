@@ -189,6 +189,8 @@ class AceEditorManager implements EditorProvider {
       _currentState != null ? _currentState.file : null;
 
   Iterable<workspace.File> get files => _editorStates.map((s) => s.file);
+
+  /// The future to indicate whether
   Future<bool> get loaded => _loadedCompleter.future;
 
   Stream<workspace.File> get onSelectedChange => _selectedController.stream;
@@ -199,6 +201,7 @@ class AceEditorManager implements EditorProvider {
 
   bool _removeState(AceEditorState state) => _editorStates.remove(state);
 
+  bool isFileOpened(workspace.File file) => _getStateFor(file) != null;
   /**
    * This will open the given [File]. If this file is already open, it will
    * instead be made the active editor.
@@ -221,8 +224,8 @@ class AceEditorManager implements EditorProvider {
 
   void saveAll() => _saveAll();
 
-  void close(workspace.File file) {
-    AceEditorState state = _getStateFor(file);
+  void close(AceEditorState state) {
+    if (!_editorStates.contains(state)) return;
 
     if (state != null) {
       int index = _editorStates.indexOf(state);
@@ -301,12 +304,12 @@ class AceEditorManager implements EditorProvider {
   }
 
   // EditorProvider
-  AceEditor createEditorForFile(workspace.Resource file) {
+  AceEditorState getEditorSessionForFile(workspace.File file) {
     openOrSelect(file);
-    return editor;
+    return _currentState;
   }
 
-  void selectFileForEditor(AceEditor editor, workspace.Resource file) {
+  void selectFileForEditor(AceEditor editor, workspace.File file) {
     AceEditorState state = _getStateFor(file);
     _switchState(state);
   }

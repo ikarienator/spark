@@ -127,8 +127,8 @@ class Spark extends Application implements FilesControllerDelegate {
                                 editorManager,
                                 allowsLabelBar: true);
     editorArea.onSelected.listen((EditorTab tab) {
-      _filesController.selectFile(tab.file);
-      localPrefs.setValue('lastFileSelection', tab.file.path);
+      _filesController.selectFile(tab.session.file);
+      localPrefs.setValue('lastFileSelection', tab.session.file.path);
     });
     _filesController = new FilesController(workspace, this);
     _filesController.openOnSelection = false;

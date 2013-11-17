@@ -8,18 +8,25 @@
  */
 library spark.editors;
 
+import 'dart:async';
 import 'dart:html' as html;
 
 import 'workspace.dart';
 
 /**
- * Classes implement this interface provides/refreshes editors for [Resource]s.
- * TODO(ikarienator): Abstract [AceEditor] so we can support more editor types.
+ * Classes implement this interface creates edit sessions for [File]s. To
+ * multiple files, [EditorProvider] should maintain a list of opened files to
+ * allow quick switching between them.
  */
 abstract class EditorProvider {
-  Editor createEditorForFile(Resource file);
-  void selectFileForEditor(Editor editor, Resource file);
-  void close(Resource file);
+  /// Returns `true` if file is previously opened.
+  bool isFileOpened(File file);
+
+  /// Returns/initiates an edit session for the file. Returns `null` if fails.
+  EditorState getEditorSessionForFile(File file);
+
+  /// Inform the editor provider to close a file.
+  void close(EditorState session);
 }
 
 abstract class Editor {
@@ -36,6 +43,13 @@ abstract class Editor {
 abstract class EditorState {
   /// File combined with the editor.
   File get file;
+
+  /// Get/create bounded editor to this Session.
+  Editor get editor;
+
+  /// Assure the file of current session is loaded and returns the current
+  /// [EditorState].
+  Future<EditorState> withSession();
 
   /// Deserialize the state of an editor.
   /// Returns `true` iff success.
